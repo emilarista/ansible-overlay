@@ -111,3 +111,6 @@ Connection parameters for connecting to the Arista switches are placed in the ro
     roles:
     - api_deploy
 
+# vars-gen.py
+
+This is a python script, currently under construction, that can be used to generate the appropriate host and group vars for the ansible roles.
