@@ -1,0 +1,7 @@
+---
+# vars file for cvp_deploy
+CVP_CONFIGLETS:
+{% for device in CVP_DEVICES %}
+  ANSIBLE_OVERLAY_{{ device }}: {% raw %} "{{ lookup ('file',{% endraw %} 'roles/cvp_generate/files/{{ device }}_overlay'{% raw %} )}}" {% endraw %}
+
+{% endfor %}

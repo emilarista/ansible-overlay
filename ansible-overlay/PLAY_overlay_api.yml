@@ -1,0 +1,14 @@
+---
+- name: Generate arista overlay configs
+  hosts: leaf
+  gather_facts: false
+  
+  roles:
+  - eos_generate
+
+- name: Generate arista overlay configs
+  hosts: leaf
+  gather_facts: true
+
+  roles:
+  - api_deploy

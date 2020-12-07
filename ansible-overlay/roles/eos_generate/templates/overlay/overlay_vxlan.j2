@@ -1,0 +1,7 @@
+interface Vxlan1
+{% for tenant, tenantinfo in tenants.items() %}
+  vxlan vrf {{ tenant }} vni {{ tenantinfo.vrf_vni }}
+{% for vlan in tenantinfo.vlans %}
+  vxlan vlan add {{ vlan }} vni {{ tenantinfo.vlan_vni_base + vlan }}
+{% endfor %}
+{% endfor %}

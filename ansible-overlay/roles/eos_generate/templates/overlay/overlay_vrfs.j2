@@ -1,0 +1,6 @@
+{% for tenant, tenantinfo in tenants.items() %}
+vrf instance {{ tenant }}
+!
+ip routing vrf {{ tenant }}
+!
+{% endfor %}

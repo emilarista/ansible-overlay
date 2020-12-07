@@ -1,0 +1,51 @@
+---
+# tasks file for cvp_deploy
+- name: Create configlets on local system
+  connection: local
+  template:
+    src: roles/cvp_deploy/templates/configlet.j2
+    dest: roles/cvp_deploy/files/CVP_CONFIGLETS.yml
+  register: LOCAL_CONFIGLET
+
+- name: "Include vars to get generated configlets"
+  include_vars: roles/cvp_deploy/files/CVP_CONFIGLETS.yml
+
+- name: "Gather CVP facts {{ inventory_hostname }}"
+  arista.cvp.cv_facts:
+    facts:
+      configlets
+  register: CVP_FACTS
+
+- name: "Configure configlet on {{inventory_hostname}}"
+  arista.cvp.cv_configlet:
+    cvp_facts: "{{ CVP_FACTS.ansible_facts }}"
+    configlets: "{{ CVP_CONFIGLETS }}"
+    configlet_filter: ["ANSIBLE_OVERLAY"]
+    state: present
+  register: CVP_CONFIGLET_RESULT
+
+- name: "Gather CVP facts {{inventory_hostname}}"
+  arista.cvp.cv_facts:
+  register: CVP_FACTS
+  when: LOCAL_CONFIGLET.changed
+
+- name: "Configure devices on {{inventory_hostname}}"
+  arista.cvp.cv_device:
+    devices: "{{ CVP_DEVICES }}"
+    cvp_facts: '{{ CVP_FACTS.ansible_facts }}'
+    device_filter: ['DC1leaf1', 'DC1leaf2', 'DC1leaf3', 'DC1leaf4', 'DC2leaf1', 'DC2leaf2', 'DC2leaf3', 'DC2leaf4']
+    configlet_mode: merge
+  register: CVP_DEVICES_RESULTS
+  when: LOCAL_CONFIGLET.changed
+
+- name: "Gather CVP facts from {{inventory_hostname}} to get pending tasks"
+  arista.cvp.cv_facts:
+    facts: tasks
+    gather_subset: tasks_pending
+  register: CVP_PENDING_TASKS
+
+- name: 'Execute all pending tasks and wait for completion for 90 seconds'
+  arista.cvp.cv_task:
+    tasks: "{{ CVP_PENDING_TASKS.ansible_facts.tasks }}"
+    wait: 90
+  when: CVP_PENDING_TASKS.ansible_facts.tasks

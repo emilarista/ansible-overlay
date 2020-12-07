@@ -1,0 +1,17 @@
+{% for tenant, tenantinfo in tenants.items() %}
+
+{% for vlan, vlaninfo in tenantinfo.vlans.items() %}
+vlan {{ vlan }}
+  name {{ vlaninfo.name }}
+!
+{% if vlaninfo.l3 == true %}
+interface Vlan{{ vlan }}
+  vrf {{ tenant }}
+  ip address virtual {{ vlaninfo.ip }}/{{ vlaninfo.mask }}
+{% if vlaninfo.host_route_export is defined and vlaninfo.host_route_export == true %}
+  ip attached-host route export
+{% endif %}
+!
+{% endif %}
+{% endfor %}
+{% endfor %}

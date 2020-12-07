@@ -1,0 +1,20 @@
+router bgp {{ bgp_asn }}
+{% for tenant, tenantinfo in tenants.items() %}
+  vrf {{ tenant }}
+    rd {{ rd_base }}:{{ tenantinfo.route_target }} 
+    route-target import evpn {{ tenantinfo.route_target }}:{{ tenantinfo.route_target }}
+    route-target export evpn {{ tenantinfo.route_target }}:{{ tenantinfo.route_target }}
+    redistribute connected
+{% if tenantinfo.redist_hostroutes is defined and tenantinfo.redist_hostroutes == true %}
+    redistribute attached-host
+{% endif %}
+  !
+  vlan-aware-bundle {{ tenant }}_VLANS
+    rd {{ rd_base }}:{{ tenantinfo.route_target }}
+    route-target both {{ tenantinfo.route_target }}:{{ tenantinfo.route_target }}
+    redistribute learned
+{% for vlan in tenantinfo.vlans %}
+    vlan add {{ vlan }}
+{% endfor %}
+   !
+{% endfor %}

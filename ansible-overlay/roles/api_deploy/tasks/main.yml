@@ -1,0 +1,11 @@
+---
+# tasks file for api_deploy
+- name: Merge configuration into running
+  eos_config:
+    backup: yes
+    backup_options: 
+      dir_path: "backups/"
+      filename: "{{ inventory_hostname }}_backup.cfg"
+    src: "roles/cvp_generate/files/{{ inventory_hostname }}_overlay"
+    replace: line
+    save_when: modified

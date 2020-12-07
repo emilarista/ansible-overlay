@@ -1,0 +1,16 @@
+{# Main Configuration Template #}
+{# {% set host = hostvars[inventory_hostname] %} #}
+
+!! {{ inventory_hostname }} Overlay Configuration
+
+!! VRFs 
+{% include 'overlay/overlay_vrfs.j2' %}
+
+!! VLANs/SVIs
+{% include 'overlay/overlay_vlans_svis.j2' %}
+
+!! VXLAN
+{% include 'overlay/overlay_vxlan.j2' %}
+
+!! BGP/EVPN
+{% include 'overlay/overlay_bgp.j2' %}

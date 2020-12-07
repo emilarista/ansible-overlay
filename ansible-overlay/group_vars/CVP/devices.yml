@@ -1,0 +1,28 @@
+---
+CVP_DEVICES:
+  LEAF1A:
+    name: 'LEAF1A'
+    parentContainerName: ANSIBLE_TEST
+    imageBundle: [] # Not yet supported
+    configlets:
+        - 'ANSIBLE_OVERLAY_LEAF1A'
+  LEAF1B:
+    name: 'LEAF1B'
+    parentContainerName: ANSIBLE_TEST
+    imageBundle: [] # Not yet supported
+    configlets:
+        - 'ANSIBLE_OVERLAY_LEAF1B'
+  LEAF2A:
+    name: 'LEAF2A'
+    parentContainerName: ANSIBLE_TEST
+    imageBundle: [] # Not yet supported
+    configlets:
+        - 'ANSIBLE_OVERLAY_LEAF2A'
+  LEAF2B:
+    name: 'LEAF2B'
+    parentContainerName: ANSIBLE_TEST
+    imageBundle: [] # Not yet supported
+    configlets:
+        - 'ANSIBLE_OVERLAY_LEAF2B'
+
+
