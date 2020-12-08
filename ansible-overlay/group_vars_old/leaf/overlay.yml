@@ -1,0 +1,95 @@
+tenants:
+  RED:
+    vrf_vni: 50001
+    vlan_vni_base: 10000
+    tenant_tag: red
+    vlan_aware_bundle: true
+    redist_hostroutes: yes
+    route_target: 10
+    vlans:
+      10: 
+        name: RED_WEB
+        l3: true
+        ip: 10.10.0.1
+        host_route_export: yes
+        mask: 24
+        tags: 
+          - web
+      11:
+        name: RED_APP
+        l3: true
+        ip: 10.11.0.1
+        host_route_export: yes
+        mask: 24
+        tags:
+          - app
+      12:
+        name: RED_DB
+        l3: true
+        ip: 10.12.0.1
+        host_route_export: yes
+        mask: 24
+        tags:
+          - db
+      13:
+        name: RED_STORAGE
+        l3: true
+        ip: 10.13.0.1
+        host_route_export: yes
+        mask: 24
+        tags:
+          - storage
+      100:
+        name: RED_VMOTION
+        l3: false
+        tags:
+          - all
+  BLUE:
+    vrf_vni: 50002
+    vlan_vni_base: 20000
+    tenant_tag: red
+    vlan_aware_bundle: true
+    redist_hostroutes: yes
+    route_target: 20
+    vlans: 
+      20:
+        name: BLUE_WEB
+        l3: true
+        ip: 10.20.0.1
+        host_route_export: yes
+        mask: 24
+        tags:
+          - blue
+          - web
+      21: 
+        name: BLUE_APP
+        l3: true
+        ip: 10.21.0.1
+        host_route_export: no
+        mask: 24
+        tags:
+          - blue
+          - app
+      22:
+        name: BLUE_DB
+        l3: true
+        ip: 10.22.0.1
+        host_route_export: no
+        mask: 24
+        tags:
+          - blue
+          - db
+      23:
+        name: BLUE_STORAGE
+        l3: true
+        ip: 10.23.0.1
+        mask: 24
+        tags:
+          - blue
+          - storage
+      200:
+        name: BLUE_VMOTION
+        l3: false
+        tags:
+          - all
+
