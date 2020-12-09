@@ -113,4 +113,6 @@ Connection parameters for connecting to the Arista switches are placed in the ro
 
 # vars-gen.py
 
-This is a python script, currently under construction, that can be used to generate the appropriate host and group vars for the ansible roles.
+This is a python interactive script that can be used to generate the appropriate host and group vars for the ansible roles through a set of menus.
+
+The script will save its configuration in a project.json file in the cwd and it is possible to load fabric variables from the file in the script. Simply run it with python vars-gen.py and navigate through the menus to start setting up your variables.
